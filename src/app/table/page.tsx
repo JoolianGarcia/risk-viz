@@ -13,9 +13,6 @@ export default function Home() {
     });
   }, []);
 
-  const sample = data[0];
-
-  console.log(sample);
   return (
     <div className=" relative col-span-11">
       <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400">

@@ -12,23 +12,14 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Home() {
   const [data, setData] = useState([]);
   useEffect(() => {
-    csv("/data.csv").then((data: any) => {
+    csv("/data-short.csv").then((data: any) => {
       setData(data);
     });
   }, []);
 
-  const sample = data[0];
+  // const sample = data[0];
 
-  console.log(sample);
-
-  // sample.map((singlerow) =>
-  // for (const key in singlerow {
-  //   console.log(key);
-  //   console.log(singlerow[key]);
-  // }
-
-  // console.log(singlerow["Lat"])
-  // );
+  // console.log(sample);
 
   // for (const key in sample) {
   //   console.log(key);
