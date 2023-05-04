@@ -16,7 +16,6 @@ export default function Mapbox() {
   data.forEach((property) => {
     const risk = property["Risk Rating"];
     const scaleindex = Math.round(risk * 10);
-    console.log(scaleindex);
     switch (scaleindex) {
       case 0:
         property.markercolor = "#f6f2ff";
@@ -50,6 +49,15 @@ export default function Mapbox() {
         break;
     }
   });
+
+  const filterbydecade = data.filter((property) => {
+    const yearcheck = property["Year"] * 1;
+    if (yearcheck === 2050) {
+      return property;
+    }
+  });
+
+  console.log(filterbydecade);
 
   const [viewport, setViewport] = useState({
     latitude: 43.6532,

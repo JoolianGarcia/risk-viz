@@ -14,7 +14,16 @@ export default function Home() {
   }, []);
 
   return (
-    <div className=" relative col-span-11">
+    <div className=" relative col-span-11 p-4">
+      <div className="ml-4">
+        <h4>Analysis of your properties at risk</h4>
+        <p className="mb-8">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure ipsam
+          labore repellat, modi tempora nam doloribus deserunt pariatur mollitia
+          veniam aperiam odio quam magnam repellendus sunt doloremque? Eligendi,
+          sint nemo!
+        </p>
+      </div>
       <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400">
         <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
           <tr>

@@ -34,9 +34,7 @@ export default function Home() {
     <div className="grid grid-cols-12">
       <Menu />
 
-      <main className=" col-span-11">
-        <Mapbox />
-      </main>
+      <Mapbox />
     </div>
   );
 }
