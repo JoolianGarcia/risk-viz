@@ -116,7 +116,7 @@ export default function Mapbox(property: any) {
         {...viewport}
         style={{ width: "100%", height: "100vh" }}
         mapStyle="mapbox://styles/joolian/clgwieh8700gt01qn17xs7knp"
-        mapboxAccessToken={process.env.mapbox_key}
+        mapboxAccessToken={process.env.TOKEAPBOX_ACCESS_TOKEN}
         onMove={(evt) => setViewport(evt.viewport)}
       >
         {filteredAssets.length > 0
