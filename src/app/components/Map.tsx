@@ -14,7 +14,7 @@ export default function Mapbox(property: any) {
 
   //on load use csv feature from d3 library to convert csv file into array of objects
   useEffect(() => {
-    csv("/data-short.csv").then((data: any) => {
+    csv("/data.csv").then((data: any) => {
       setData(data);
     });
   }, []);
@@ -28,7 +28,7 @@ export default function Mapbox(property: any) {
     );
   };
 
-  //create array of available decades from data
+  //create array of available decades from data and sort the values in ascending order
   const decades = Array.from(
     new Set(data.map((asset) => asset["Year"]).sort())
   );
