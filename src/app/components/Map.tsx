@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useEffect, useState, SetStateAction } from "react";
+import { useRef, useEffect, useState } from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
 import Map, { Marker, Popup } from "react-map-gl";
 import { csv } from "d3";
@@ -117,7 +117,7 @@ export default function Mapbox(property: any) {
         style={{ width: "100%", height: "100vh" }}
         mapStyle="mapbox://styles/joolian/clgwieh8700gt01qn17xs7knp"
         mapboxAccessToken={process.env.TOKEAPBOX_ACCESS_TOKEN}
-        onMove={(evt) => setViewport(evt.viewport)}
+        onMove={(evt: any) => setViewport(evt.viewport)}
       >
         {filteredAssets.length > 0
           ? filteredAssets.map((entry: any, index) => (
