@@ -79,17 +79,6 @@ function Menu() {
             <BsTable className=" text-2xl " />
           </Link>
         </li>
-        <li
-          className={
-            pathname === "/analysis"
-              ? " mb-2 flex rounded-md bg-gray-800 px-4 py-2 align-middle  text-white"
-              : "mb-2 flex px-4 py-2  align-middle "
-          }
-        >
-          <Link href="/table" className="flex items-center align-middle">
-            <BsFillBarChartLineFill className="text-2xl text-gray-400" />
-          </Link>
-        </li>
       </ul>
     </aside>
   );

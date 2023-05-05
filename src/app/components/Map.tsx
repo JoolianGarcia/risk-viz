@@ -10,6 +10,7 @@ import React from "react";
 export default function Mapbox(property: any) {
   const [data, setData] = useState([]);
   const [filteredAssets, setFilteredAssets] = useState(data);
+  const [selectedAsset, setselectedAsset] = useState(null);
 
   //on load use csv feature from d3 library to convert csv file into array of objects
   useEffect(() => {
@@ -19,7 +20,6 @@ export default function Mapbox(property: any) {
   }, []);
 
   //filter assets by decade
-
   const filterByDecade = (decade: any) => {
     setFilteredAssets(
       data.filter((asset: any) => {
@@ -28,10 +28,10 @@ export default function Mapbox(property: any) {
     );
   };
 
-  console.log(data);
-
   //create array of available decades from data
-  const decades = Array.from(new Set(data.map((asset) => asset["Year"])));
+  const decades = Array.from(
+    new Set(data.map((asset) => asset["Year"]).sort())
+  );
 
   //initialize map
   const [viewport, setViewport] = useState({
@@ -85,8 +85,8 @@ export default function Mapbox(property: any) {
           onChange={(e) => filterByDecade(e.target.value)}
           className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
         >
-          <option value="" disabled selected>
-            Show by decade
+          <option value="" selected>
+            All decades
           </option>
 
           {decades.map((decade, index) => {
@@ -96,8 +96,9 @@ export default function Mapbox(property: any) {
       </div>
 
       {/* Scale legend to improve readability */}
-      <div className=" absolute bottom-6 right-4 z-50">
-        <div className="flex  p-2">
+      <div className=" absolute bottom-6 right-4 z-50 flex">
+        <span className=" text-xs">Lowest Risk</span>
+        <div className="flex p-2">
           <div className="h-[10px] w-[30px] bg-[#f6f2ff]"></div>
           <div className="h-[10px] w-[30px] bg-[#e8daff]"></div>
           <div className="h-[10px] w-[30px] bg-[#d4bbff]"></div>
@@ -108,6 +109,7 @@ export default function Mapbox(property: any) {
           <div className="h-[10px] w-[30px] bg-[#491d8b]"></div>
           <div className="h-[10px] w-[30px] bg-[#1c0f30]"></div>
         </div>
+        <span className="text-xs">Highest Risk</span>
       </div>
 
       <Map
@@ -117,35 +119,41 @@ export default function Mapbox(property: any) {
         mapboxAccessToken={process.env.mapbox_key}
         onMove={(evt) => setViewport(evt.viewport)}
       >
-        {filteredAssets.map((entry: any, index) => (
-          <Marker
-            key={index}
-            longitude={entry["Long"]}
-            latitude={entry["Lat"]}
-            anchor="bottom"
-            color={`${entry["markercolor"]}`}
-          />
-        ))}
-
-        {/* <Popup
-          longitude={entry["Long"]}
-          latitude={entry["Lat"]}
-          anchor="bottom"
-        >
-          You are here
-        </Popup> */}
-
-        {/* {filteredAssets.map((entry: any, index) => (
-          <Popup
-            key={index}
-            longitude={entry["Long"]}
-            latitude={entry["Lat"]}
-            anchor="bottom"
-            // onClose={() => setShowPopup(false)}
-          >
-            entry.
-          </Popup>
-        ))} */}
+        {filteredAssets.length > 0
+          ? filteredAssets.map((entry: any, index) => (
+              <Marker
+                key={index}
+                longitude={entry["Long"]}
+                latitude={entry["Lat"]}
+                anchor="bottom"
+                color={`${entry["markercolor"]}`}
+              >
+                {/* <Popup
+                  longitude={entry["Long"]}
+                  latitude={entry["Lat"]}
+                  anchor="bottom"
+                >
+                  You are here
+                </Popup> */}
+              </Marker>
+            ))
+          : data.map((entry: any, index) => (
+              <Marker
+                key={index}
+                longitude={entry["Long"]}
+                latitude={entry["Lat"]}
+                anchor="bottom"
+                color={`${entry["markercolor"]}`}
+              >
+                {/* <Popup
+                  longitude={entry["Long"]}
+                  latitude={entry["Lat"]}
+                  anchor="top"
+                >
+                  You are here
+                </Popup> */}
+              </Marker>
+            ))}
       </Map>
     </div>
   );
