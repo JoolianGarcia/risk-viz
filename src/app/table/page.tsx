@@ -14,7 +14,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className=" relative col-span-11 p-4">
+    <div className=" relative col-span-12 ml-[80px] p-4">
       <div className="ml-4">
         <h4>Analysis of your properties at risk</h4>
         <p className="mb-8">

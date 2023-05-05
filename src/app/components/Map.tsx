@@ -5,15 +5,43 @@ import Map, { Marker, Popup } from "react-map-gl";
 import { csv } from "d3";
 import React from "react";
 
-export default function Mapbox() {
+// interface property {}
+
+export default function Mapbox(property: any) {
   const [data, setData] = useState([]);
+  const [filteredAssets, setFilteredAssets] = useState(data);
+
+  //on load use csv feature from d3 library to convert csv file into array of objects
   useEffect(() => {
     csv("/data-short.csv").then((data: any) => {
       setData(data);
     });
   }, []);
 
-  data.forEach((property) => {
+  //filter assets by decade
+
+  const filterByDecade = (decade: any) => {
+    setFilteredAssets(
+      data.filter((asset: any) => {
+        return asset["Year"] === decade;
+      })
+    );
+  };
+
+  console.log(data);
+
+  //create array of available decades from data
+  const decades = Array.from(new Set(data.map((asset) => asset["Year"])));
+
+  //initialize map
+  const [viewport, setViewport] = useState({
+    latitude: 43.6532,
+    longitude: -79.3832,
+    zoom: 5,
+  });
+
+  //Assign linear color scale (based on IBM carbon data visualization standards)
+  data.forEach((property: any) => {
     const risk = property["Risk Rating"];
     const scaleindex = Math.round(risk * 10);
     switch (scaleindex) {
@@ -50,70 +78,38 @@ export default function Mapbox() {
     }
   });
 
-  const filterbydecade = data.filter((property) => {
-    const yearcheck = property["Year"] * 1;
-    if (yearcheck === 2050) {
-      return property;
-    }
-  });
-
-  console.log(filterbydecade);
-
-  const [viewport, setViewport] = useState({
-    latitude: 43.6532,
-    longitude: -79.3832,
-    zoom: 5,
-  });
-
   return (
-    <div className="relative col-span-11">
-      {/* <div className="absolute left-2 top-2 z-40 inline-block text-left">
-        <div>
-          <button
-            type="button"
-            className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-            id="menu-button"
-            aria-expanded="true"
-            aria-haspopup="true"
-          >
-            Show by Decade
-            <svg
-              className="-mr-1 h-5 w-5 text-gray-400"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                fillRule="evenodd"
-                d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </button>
+    <div className="relative col-span-12 ml-[80px]">
+      <div className="absolute left-2 top-2 z-40 inline-block">
+        <select
+          onChange={(e) => filterByDecade(e.target.value)}
+          className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+        >
+          <option value="" disabled selected>
+            Show by decade
+          </option>
 
-          <div
-            className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-            role="menu"
-            aria-orientation="vertical"
-            aria-labelledby="menu-button"
-            tabIndex="-1"
-          >
-            <div className="py-1" role="none">
-              <form method="POST" action="#" role="none">
-                <button
-                  type="submit"
-                  className="block w-full px-4 py-2 text-left text-sm text-gray-700"
-                  role="menuitem"
-                  tabIndex="-1"
-                  id="menu-item-3"
-                >
-                  Sign out
-                </button>
-              </form>
-            </div>
-          </div>
+          {decades.map((decade, index) => {
+            return <option key={index}>{decade}</option>;
+          })}
+        </select>
+      </div>
+
+      {/* Scale legend to improve readability */}
+      <div className=" absolute bottom-6 right-4 z-50">
+        <div className="flex  p-2">
+          <div className="h-[10px] w-[30px] bg-[#f6f2ff]"></div>
+          <div className="h-[10px] w-[30px] bg-[#e8daff]"></div>
+          <div className="h-[10px] w-[30px] bg-[#d4bbff]"></div>
+          <div className="h-[10px] w-[30px] bg-[#be95ff]"></div>
+          <div className="h-[10px] w-[30px] bg-[#a56eff]"></div>
+          <div className="h-[10px] w-[30px] bg-[#8a3ffc]"></div>
+          <div className="h-[10px] w-[30px] bg-[#6929c4]"></div>
+          <div className="h-[10px] w-[30px] bg-[#491d8b]"></div>
+          <div className="h-[10px] w-[30px] bg-[#1c0f30]"></div>
         </div>
-      </div> */}
+      </div>
+
       <Map
         {...viewport}
         style={{ width: "100%", height: "100vh" }}
@@ -121,7 +117,7 @@ export default function Mapbox() {
         mapboxAccessToken={process.env.mapbox_key}
         onMove={(evt) => setViewport(evt.viewport)}
       >
-        {data.map((entry, index) => (
+        {filteredAssets.map((entry: any, index) => (
           <Marker
             key={index}
             longitude={entry["Long"]}
@@ -130,16 +126,26 @@ export default function Mapbox() {
             color={`${entry["markercolor"]}`}
           />
         ))}
-        {/* {showPopup && (
+
+        {/* <Popup
+          longitude={entry["Long"]}
+          latitude={entry["Lat"]}
+          anchor="bottom"
+        >
+          You are here
+        </Popup> */}
+
+        {/* {filteredAssets.map((entry: any, index) => (
           <Popup
-            longitude={-79.3832}
-            latitude={43.6532}
+            key={index}
+            longitude={entry["Long"]}
+            latitude={entry["Lat"]}
             anchor="bottom"
-            onClose={() => setShowPopup(false)}
+            // onClose={() => setShowPopup(false)}
           >
-            You are here
+            entry.
           </Popup>
-        )} */}
+        ))} */}
       </Map>
     </div>
   );

@@ -7,7 +7,7 @@ function Menu() {
   const pathname = usePathname();
 
   return (
-    <aside className="sticky top-0 col-span-1 h-[100vh] border-r border-gray-300 bg-gray-900 px-2 pt-8">
+    <aside className="fixed top-0 z-50 h-[100vh] w-[80px] border-r border-gray-300 bg-gray-900 px-2 pt-8">
       <a href="/">
         <svg
           className="p-2"
@@ -18,11 +18,11 @@ function Menu() {
           xmlns="http://www.w3.org/2000/svg"
         >
           {" "}
-          <g clip-path="url(#clip0_105_284)">
+          <g clipPath="url(#clip0_105_284)">
             {" "}
             <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
+              fillRule="evenodd"
+              clipRule="evenodd"
               d="M0 0H50V50H0V0ZM100 50H50V100H0V150H50V200H100V150H150V200H200V150H150V100H200V50H150V0H100V50ZM100 100H150V50H100V100ZM100 100V150H50V100H100Z"
               fill="url(#paint0_linear_105_284)"
             />{" "}
@@ -38,8 +38,8 @@ function Menu() {
               gradientUnits="userSpaceOnUse"
             >
               {" "}
-              <stop stop-color="#A7B5FF" />{" "}
-              <stop offset="1" stop-color="#F3ACFF" />{" "}
+              <stop stopColor="#A7B5FF" />{" "}
+              <stop offset="1" stopColor="#F3ACFF" />{" "}
             </linearGradient>{" "}
             <clipPath id="clip0_105_284">
               {" "}
@@ -65,7 +65,7 @@ function Menu() {
                 : "flex items-center align-middle "
             }
           >
-            <BsFillMapFill className="mr-2  text-2xl" />
+            <BsFillMapFill className=" text-2xl" />
           </Link>
         </li>
         <li
@@ -76,7 +76,7 @@ function Menu() {
           }
         >
           <Link href="/table" className="flex items-center align-middle">
-            <BsTable className="mr-2  text-2xl " />
+            <BsTable className=" text-2xl " />
           </Link>
         </li>
         <li
@@ -87,7 +87,7 @@ function Menu() {
           }
         >
           <Link href="/table" className="flex items-center align-middle">
-            <BsFillBarChartLineFill className="mr-2 text-2xl text-gray-400" />
+            <BsFillBarChartLineFill className="text-2xl text-gray-400" />
           </Link>
         </li>
       </ul>
